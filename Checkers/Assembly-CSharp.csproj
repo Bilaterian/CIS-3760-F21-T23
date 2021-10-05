@@ -47,7 +47,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\BoardGenerator.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/LANCE_DATA/Classes/UNI/Sem 9/CIS 3760/Unity Editor/2020.3.19f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
