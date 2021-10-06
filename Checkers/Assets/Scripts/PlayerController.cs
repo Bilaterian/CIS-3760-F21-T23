@@ -11,23 +11,40 @@ public class PlayerController : MonoBehaviour
     private int[] redX = new int[12] { 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7 };
     private int[] redY = new int[12] { 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 };
     private int i = 0;
+
+    private Dictionary<int, GameObject> redPieces;
+    private Dictionary<int, GameObject> blackPieces; //consider finding a different way of stroing multiple info underthe same key
+
+    private int numRed = 12;
+    private int numBlack = 12;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         setupPieces();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         
     }
 
     void setupPieces(){
-        
         for (i = 0; i < 12; i++) {
             var newPieceRed = Instantiate(redPiece, new Vector3(redX[i]*2, redY[i]*2, 0), Quaternion.identity);
+            newPieceRed.name = $"Red Piece {i}";
+            //redPieces[i] = newPieceRed; //i get a null reference exception when i do this
+
             var newPieceBlack = Instantiate(blackPiece, new Vector3(blackX[i] * 2, blackY[i] * 2, 0), Quaternion.identity);
+            newPieceBlack.name = $"Black Piece {i}";
+            //blackPieces[i] = newPieceBlack; //i get a null reference exception when i do this
         }
+    }
+
+    void minusRed(){
+        numRed = numRed - 1;
+    }
+
+    void minusBlack(){
+        numBlack = numBlack - 1;
     }
 }
