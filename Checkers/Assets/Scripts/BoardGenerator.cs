@@ -39,11 +39,5 @@ public class BoardGenerator : MonoBehaviour
                 colorPicker = 0;
             }
         }
-    
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
