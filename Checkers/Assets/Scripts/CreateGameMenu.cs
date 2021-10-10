@@ -6,11 +6,6 @@ using System;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-[Serializable]
-public struct Player {
-    public string name;
-};
-
 public class CreateGameMenu : MonoBehaviour
 {
     [SerializeField] Dropdown playerOneDropDown;
@@ -21,9 +16,22 @@ public class CreateGameMenu : MonoBehaviour
     private Player playerTwo;
 
     void Start() {
+        possiblePlayers = DataSaver.LoadList<Player>("possiblePlayers");
+        Debug.Log(possiblePlayers.Count());
+
         playerOneDropDown.options.Clear();
         playerTwoDropDown.options.Clear();
-        possiblePlayers = new List<Player>();
+
+        if (possiblePlayers == null || possiblePlayers.Count() == 0) {
+            possiblePlayers = new List<Player>();
+            CreatePlayer("Player 1");
+            CreatePlayer("Player 2");
+        } else {
+            foreach (Player player in possiblePlayers) {
+                playerOneDropDown.options.Add(new Dropdown.OptionData { text = player.name });
+                playerTwoDropDown.options.Add(new Dropdown.OptionData { text = player.name });
+            }
+        }
 
         playerOneDropDown.onValueChanged.AddListener(delegate {
             DropdownValueChanged(playerOneDropDown);
@@ -32,12 +40,13 @@ public class CreateGameMenu : MonoBehaviour
             DropdownValueChanged(playerTwoDropDown);
         });
 
-        CreatePlayer("Player 1");
-        CreatePlayer("Player 2");
+
         playerOneDropDown.value = 0;
         DropdownValueChanged(playerOneDropDown);
         playerTwoDropDown.value = 1;
         DropdownValueChanged(playerTwoDropDown);
+
+        DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
     }
 
     public void CreatePlayer() {
@@ -48,8 +57,8 @@ public class CreateGameMenu : MonoBehaviour
         if (possiblePlayers.Exists(player => player.name == name)) {
             return;
         }
-        Player newPlayer;
-        newPlayer.name = name;
+
+        Player newPlayer = new Player(name);
         possiblePlayers.Add(newPlayer);
         
         playerOneDropDown.options.Add(new Dropdown.OptionData() { text = name });
@@ -57,11 +66,12 @@ public class CreateGameMenu : MonoBehaviour
 
         playerOneDropDown.RefreshShownValue();
         playerTwoDropDown.RefreshShownValue();
+
+        DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
     }
 
     private void DropdownValueChanged(Dropdown dropdown) {
         Dropdown unchangedDropdown = object.ReferenceEquals(dropdown, playerOneDropDown) ? playerTwoDropDown : playerOneDropDown;
-        Debug.Log(dropdown.value);
         unchangedDropdown.options.Clear();
 
         var newDropdownValue = dropdown.options[dropdown.value].text;
