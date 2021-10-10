@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public struct Player {
@@ -44,6 +45,9 @@ public class CreateGameMenu : MonoBehaviour
     }
 
     public void CreatePlayer(string name) {
+        if (possiblePlayers.Exists(player => player.name == name)) {
+            return;
+        }
         Player newPlayer;
         newPlayer.name = name;
         possiblePlayers.Add(newPlayer);
@@ -65,5 +69,13 @@ public class CreateGameMenu : MonoBehaviour
                                                 where player.name != newDropdownValue
                                                 select new Dropdown.OptionData() { text = player.name };
         unchangedDropdown.AddOptions(possiblePlayersMinusNewlySelected.ToList());
+    }
+
+    public void BackToMainMenu() {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void StartGame() {
+        SceneManager.LoadScene("Checkers");
     }
 }
