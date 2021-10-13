@@ -1843,11 +1843,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1019611901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d829d2528c089143af7c8f291702e0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 38fd084af9f7cc140a33da218d04080c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerOneDropDown: {fileID: 664089603}
-  playerTwoDropDown: {fileID: 1289318647}
+  playerOneDropdown: {fileID: 664089603}
+  playerTwoDropdown: {fileID: 1289318647}
   createPlayerInputField: {fileID: 2098875612}
 --- !u!4 &1019611903
 Transform:

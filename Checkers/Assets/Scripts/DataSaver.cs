@@ -15,6 +15,11 @@ public class DataSaver
     public static List<T> LoadList<T>(string name)
     {
         string jsonData = PlayerPrefs.GetString(name);
+        Debug.Log(jsonData);
+        if (jsonData.Length == 0)
+        {
+            return new List<T>();
+        }
         var loadedData = JsonUtility.FromJson<SerializableListContainer<T>>(jsonData);
         return loadedData.list;
     }
