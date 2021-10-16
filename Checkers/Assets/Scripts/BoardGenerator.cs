@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Tilemaps;
+//using UnityEditor.Tilemaps;
 
 public class BoardGenerator : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class BoardGenerator : MonoBehaviour
     void generateGrid() {
         for (x = 0; x < boardSize; x++) {
             for (y = 0; y < boardSize; y++) {
-                Debug.Log("x: " + x + " y: " + y + " Color: " + colorPicker);
+                //Debug.Log("x: " + x + " y: " + y + " Color: " + colorPicker);
                 if (colorPicker == 0){
                     var newTile = Instantiate(tile1, new Vector3(x*2, y*2, 1), Quaternion.identity);
                     colorPicker = 1;
@@ -39,11 +39,5 @@ public class BoardGenerator : MonoBehaviour
                 colorPicker = 0;
             }
         }
-    
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
