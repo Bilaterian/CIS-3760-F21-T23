@@ -66,4 +66,51 @@ public class CreateGameMenuTests
 
         Assert.IsTrue(expectedPlayerNames.SetEquals(allPlayerNamesLoaded));
     }
+
+    [UnityTest]
+    public IEnumerator CreatingNewPlayerUpdatesDropdowns()
+    {
+        PlayerPrefs.DeleteAll();
+        var createGameMenu = new CreateGameMenu();
+        var gameObjectOne = new GameObject();
+        var gameObjectTwo = new GameObject();
+        var playerOneDropdown = gameObjectOne.AddComponent<Dropdown>();
+        var playerTwoDropdown = gameObjectTwo.AddComponent<Dropdown>();
+
+        createGameMenu.InitializeDropdowns(playerOneDropdown, playerTwoDropdown);
+
+        var newPlayerName = "Evan";
+        createGameMenu.CreatePlayer(newPlayerName, playerOneDropdown, playerTwoDropdown);
+
+        yield return null;
+
+        Assert.AreEqual(2, playerOneDropdown.options.Count);
+        Assert.AreEqual(2, playerTwoDropdown.options.Count);
+        Assert.AreEqual(1, playerOneDropdown.options.Where(option => option.text == newPlayerName).Count());
+        Assert.AreEqual(1, playerTwoDropdown.options.Where(option => option.text == newPlayerName).Count());
+    }
+
+    [UnityTest]
+    public IEnumerator SelectingPlayerUpdatesOtherDropdownOptions()
+    {
+        PlayerPrefs.DeleteAll();
+        var createGameMenu = new CreateGameMenu();
+        var gameObjectOne = new GameObject();
+        var gameObjectTwo = new GameObject();
+        var changedDropdown = gameObjectOne.AddComponent<Dropdown>();
+        var unchangedDropdown = gameObjectTwo.AddComponent<Dropdown>();
+        createGameMenu.InitializeDropdowns(changedDropdown, unchangedDropdown);
+        createGameMenu.CreatePlayer("Evan", changedDropdown, unchangedDropdown);
+
+        changedDropdown.value = 1;
+        createGameMenu.DropdownValueChanged(changedDropdown, unchangedDropdown);
+
+        yield return null;
+
+        // unchanged dropdown should not contain the selected player (because players cant play as the same player).
+        var changedDropdownText = changedDropdown.options[changedDropdown.value].text;
+        Assert.AreEqual(0, unchangedDropdown.options.Where(option => option.text == changedDropdownText).Count());
+        Assert.AreEqual(2, changedDropdown.options.Count);
+        Assert.AreEqual(2, unchangedDropdown.options.Count);
+    }
 }

@@ -66,7 +66,7 @@ public class CreateGameMenu
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
     }
 
-    private void DropdownValueChanged(Dropdown changedDropdown, Dropdown unchangedDropdown)
+    public void DropdownValueChanged(Dropdown changedDropdown, Dropdown unchangedDropdown)
     {
         unchangedDropdown.options.Clear();
 
