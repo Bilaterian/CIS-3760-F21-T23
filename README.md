@@ -1,13 +1,17 @@
 # CIS-3760-F21-T23
-Repository for CIS 3760 for Team 23
-Team Name: Team 23
 
+Repository for CIS 3760 for Team 23
+
+Team Name: Team 23
 
 Team Members:
 
 Lance Paje (lpaje@uoguelph.ca)
+
 Evan Cooper (ecoope10@uoguelph.ca)
+
 Ananya Thukral (ananya@uoguelph.ca)
+
 Aqsa Pehlvi (apehlvi@uoguelph.ca)
 
 Project: Checkers
