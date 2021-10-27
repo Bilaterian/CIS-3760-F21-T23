@@ -106,4 +106,8 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             return 0;
         }
     }
+
+    Vector3 getPos(){
+        return this.transform.position;
+    }
 }

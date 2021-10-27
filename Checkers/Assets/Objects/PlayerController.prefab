@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad1478f5a01e39438d494bd120a1fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redPiece: {fileID: 5833262478279012227, guid: 707bbf8d3679ee54882639a11e7ada0e, type: 3}
-  blackPiece: {fileID: 4438703722641341943, guid: 3d3b8cefe4498dc40aab5863593beffe, type: 3}
+  redPiece: {fileID: 8367049296721870089, guid: 707bbf8d3679ee54882639a11e7ada0e, type: 3}
+  blackPiece: {fileID: 8646280080383015959, guid: 3d3b8cefe4498dc40aab5863593beffe, type: 3}
