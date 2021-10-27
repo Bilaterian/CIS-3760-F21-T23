@@ -30,11 +30,11 @@ public class PlayerController : MonoBehaviour
 
     void setupPieces(){
         for (i = 0; i < 12; i++) {
-            var newPieceRed = Instantiate(redPiece, new Vector3(redX[i]*2, redY[i]*2, 0), Quaternion.identity);
+            var newPieceRed = Instantiate(redPiece, new Vector3(redX[i]*2, redY[i]*2, -1), Quaternion.identity);
             newPieceRed.name = $"Red Piece {i}";
             //redPieces[i] = newPieceRed; //i get a null reference exception when i do this
 
-            var newPieceBlack = Instantiate(blackPiece, new Vector3(blackX[i] * 2, blackY[i] * 2, 0), Quaternion.identity);
+            var newPieceBlack = Instantiate(blackPiece, new Vector3(blackX[i] * 2, blackY[i] * 2, -1), Quaternion.identity);
             newPieceBlack.name = $"Black Piece {i}";
             //blackPieces[i] = newPieceBlack; //i get a null reference exception when i do this
         }

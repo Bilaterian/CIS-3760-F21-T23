@@ -32,26 +32,78 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     void OnMouseDown(){ //make sure other pieces are unselectable during this process
         if (Input.GetMouseButtonDown(0)){ //on left click
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log("is this hitting? " + mousePos);
+            //Debug.Log("is this hitting? " + mousePos);
             spawnTiles();
         }
     }
 
-    void spawnTiles(){
-        tile1 = Instantiate(moveTile, new Vector3(this.transform.position.x + 2, this.transform.position.y + 2, 1), Quaternion.identity);
-        tile2 = Instantiate(moveTile, new Vector3(this.transform.position.x - 2, this.transform.position.y + 2, 1), Quaternion.identity);
+    void spawnTiles() {
+        Vector3 tile1Vector;
+        Vector3 tile2Vector;
+        Vector3 tile3Vector;
+        Vector3 tile4Vector;
+        int boundCheck1;
+        int boundCheck2;
+        int boundCheck3;
+        int boundCheck4;
+        int collCheck1;
+        int collCheck2;
+        int collCheck3;
+        int collCheck4;
 
-        tile1.setParent(this);
-        tile2.setParent(this);
+        //check for king here later
+        tile1Vector.x = this.transform.position.x + 2;
+        tile2Vector.x = this.transform.position.x - 2;
+        tile1Vector.z = 0;
+        tile2Vector.z = 0;
+
+        if(teamColor == 1){ //if red
+            tile1Vector.y = this.transform.position.y + 2;
+            tile2Vector.y = this.transform.position.y + 2;
+        }
+        else{ //if black 
+            tile1Vector.y = this.transform.position.y - 2;
+            tile2Vector.y = this.transform.position.y - 2;
+        }
+
+        //add boundary checks here
+        boundCheck1 = checkBounds(tile1Vector);
+        boundCheck2 = checkBounds(tile2Vector);
+
+        //add piece collision check here, need reference to player controller
+
+        //check before spawning
+        if (boundCheck1 == 1) {
+            tile1 = Instantiate(moveTile, tile1Vector, Quaternion.identity);
+            tile1.setParent(this);
+        }
+        if (boundCheck2 == 1) {
+            tile2 = Instantiate(moveTile, tile2Vector, Quaternion.identity);
+            tile2.setParent(this);
+        }
     }
 
-    void destroyTiles(){
-        Destroy(tile1);
-        Destroy(tile2);
+    public void destroyTiles(){
+        if (tile1 != null) {
+            tile1.DestroyMe();
+        }
+        if (tile2 != null) {
+            tile2.DestroyMe();
+        }   
     }
 
     public void moveMe(Vector3 newPos) {
         this.transform.position = newPos;
         destroyTiles();
+    }
+
+    private int checkBounds(Vector3 toCheck) {
+        //check x and y
+        if ((toCheck.x >= 0 && toCheck.x <= 14) && (toCheck.y >= 0 && toCheck.y <= 14)){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 }
