@@ -15,6 +15,8 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     private MoveTile tile3;
     private MoveTile tile4;
 
+    private PlayerController parent;
+
     void Start(){
         thisSprite = GetComponent<SpriteRenderer>();
         colorOrig = thisSprite.color;
@@ -33,6 +35,9 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         if (Input.GetMouseButtonDown(0)){ //on left click
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log("is this hitting? " + mousePos);
+            parent.setPieceName(this.name);
+            parent.removeAllOtherMoveTiles();
+            //remove all other 
             spawnTiles();
         }
     }
@@ -73,11 +78,11 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         //add piece collision check here, need reference to player controller
 
         //check before spawning
-        if (boundCheck1 == 1) {
+        if (boundCheck1 == 1 && parent.checkIfTileOccupied(tile1Vector) == 0) {
             tile1 = Instantiate(moveTile, tile1Vector, Quaternion.identity);
             tile1.setParent(this);
         }
-        if (boundCheck2 == 1) {
+        if (boundCheck2 == 1 && parent.checkIfTileOccupied(tile2Vector) == 0) {
             tile2 = Instantiate(moveTile, tile2Vector, Quaternion.identity);
             tile2.setParent(this);
         }
@@ -89,10 +94,11 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
         if (tile2 != null) {
             tile2.DestroyMe();
-        }   
+        }
     }
 
     public void moveMe(Vector3 newPos) {
+        newPos.z = -1;
         this.transform.position = newPos;
         destroyTiles();
     }
@@ -107,7 +113,21 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
     }
 
-    Vector3 getPos(){
+    Vector3 getPos() {
         return this.transform.position;
     }
+
+    public void disableColl() { 
+    
+    }
+
+    public void enableColl() { 
+    
+    }
+
+    public void setParent(PlayerController newParent){
+        parent = newParent;
+    }
+
+
 }
