@@ -18,4 +18,10 @@ public class MoveTile : MonoBehaviour
     public void setParent(Piece newParent) {
         parent = newParent;
     }
+
+    public void DestroyMe(){
+        this.GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(this.GetComponent<BoxCollider2D>());
+        Destroy(this);
+    }
 }
