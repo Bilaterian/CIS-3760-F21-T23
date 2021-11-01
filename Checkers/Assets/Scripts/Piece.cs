@@ -16,6 +16,7 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     private MoveTile tile4;
 
     private PlayerController parent;
+    private bool isInteractable = true;
 
     private Vector3 tempVector;
 
@@ -26,6 +27,7 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
 
     // Start is called before the first frame update
     void OnMouseOver(){
+        if (this.isInteractable == false) return;
          thisSprite.color = Color.yellow;
     }
 
@@ -33,7 +35,8 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
          thisSprite.color = colorOrig;
     }
 
-    void OnMouseDown(){ //make sure other pieces are unselectable during this process
+    void OnMouseDown(){
+        if (this.isInteractable == false) return;
         if (Input.GetMouseButtonDown(0)){ //on left click
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log("is this hitting? " + mousePos);
@@ -150,6 +153,13 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
         this.transform.position = newPos;
         destroyTiles();
+        if (this.teamColor == 0)
+        {
+            this.parent.setPlayerTurnRed();
+        } else
+        {
+            this.parent.setPlayerTurnBlack();
+        }
     }
 
     private int checkBounds(Vector3 toCheck) {
@@ -166,12 +176,12 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         return this.transform.position;
     }
 
-    public void disableColl() { 
-    
+    public void disableInteractions() {
+        this.isInteractable = false;
     }
 
-    public void enableColl() { 
-    
+    public void enableInteractions() {
+        this.isInteractable = true;
     }
 
     public void setParent(PlayerController newParent){
