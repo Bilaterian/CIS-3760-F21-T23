@@ -46,113 +46,116 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             parent.setPieceName(this.name);
             parent.removeAllMoveTiles();
             //remove all other 
-            spawnTiles();
+            // spawnTiles();
+            if (this.isKing)
+            {
+                highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
+                highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
+            } else if (this.teamColor == 0)
+            {
+                highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
+            } else
+            {
+                highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
+            }
         }
     }
 
-    void spawnTiles() {
+    private void highlightMoves(float posX, float posY, bool directionIsUp, bool isMultiCapture)
+    {
+        int direction = directionIsUp ? 1 : -1;
         Vector3 tile1Vector;
         Vector3 tile2Vector;
-        Vector3 tile3Vector;
-        Vector3 tile4Vector;
-        int boundCheck1;
-        int boundCheck2;
-        int boundCheck3;
-        int boundCheck4;
-        int collCheck1;
-        int collCheck2;
-        int collCheck3;
-        int collCheck4;
-
-       
-        //check for king here later
-        tile1Vector.x = this.transform.position.x + 2;
-        tile2Vector.x = this.transform.position.x - 2;
+        tile1Vector.x = posX + 2;
+        tile2Vector.x = posX - 2;
+        tile1Vector.y = posY + (2 * direction);
+        tile2Vector.y = posY + (2 * direction);
         tile1Vector.z = -1;
         tile2Vector.z = -1;
 
-        if(teamColor == 1){ //if red
-            tile1Vector.y = this.transform.position.y + 2;
-            tile2Vector.y = this.transform.position.y + 2;
-        }
-        else{ //if black 
-            tile1Vector.y = this.transform.position.y - 2;
-            tile2Vector.y = this.transform.position.y - 2;
-        }
+        int boundCheck1 = checkBounds(tile1Vector);
+        int boundCheck2 = checkBounds(tile2Vector);
 
-        //add boundary checks here
-        boundCheck1 = checkBounds(tile1Vector);
-        boundCheck2 = checkBounds(tile2Vector);
-
-        //add piece collision check here, need reference to player controller
-
-        //check before spawning
-        if (boundCheck1 == 1){
-            if (parent.checkIfTileOccupied(tile1Vector) == 0)
+        if (boundCheck1 == 1)
+        {
+            if (parent.checkIfTileOccupied(tile1Vector) == 0 && isMultiCapture == false)
             {
-                tile1 = Instantiate(moveTile, tile1Vector, Quaternion.identity);
-                tile1.setParent(this);
+                var newMoveTile = Instantiate(moveTile, tile1Vector, Quaternion.identity);
+                newMoveTile.setParent(this);
+                this.moveTiles.Add(newMoveTile);
             }
-            else if (parent.checkIfTileHasEnemyPiece(tile1Vector, teamColor) == 1) {
-                tempVector = tile1Vector;
-                tempVector.x = tile1Vector.x + 2;
-                if (teamColor == 1) {
-                    tempVector.y = tile1Vector.y + 2;
-                }
-                else {
-                    tempVector.y = tile1Vector.y - 2;
-                }
-                boundCheck1 = checkBounds(tempVector);
-                if (boundCheck1 == 1 && parent.checkIfTileOccupied(tempVector) == 0) {
-                    tile1 = Instantiate(moveTile, tempVector, Quaternion.identity);
-                    tile1.setParent(this);
-                    tile1.setKill();
+            else if (parent.checkIfTileHasEnemyPiece(tile1Vector, teamColor) == 1)
+            {
+                var newSpotVector = tile1Vector;
+                newSpotVector.x = tile1Vector.x + 2;
+                newSpotVector.y = tile1Vector.y + (2 * direction);
+                var boundCheckNewSpot = checkBounds(newSpotVector);
+                if (boundCheckNewSpot == 1 && parent.checkIfTileOccupied(newSpotVector) == 0)
+                {
+                    var newMoveTile = Instantiate(moveTile, newSpotVector, Quaternion.identity);
+                    newMoveTile.setParent(this);
+                    this.moveTiles.Add(newMoveTile);
+                    newMoveTile.setKill();
+
+                    this.highlightMoves(newSpotVector.x, newSpotVector.y, directionIsUp, true);
                 }
             }
         }
-        if (boundCheck2 == 1) {
-            if (parent.checkIfTileOccupied(tile2Vector) == 0) {
-                tile2 = Instantiate(moveTile, tile2Vector, Quaternion.identity);
-                tile2.setParent(this);
+        if (boundCheck2 == 1)
+        {
+            if (parent.checkIfTileOccupied(tile2Vector) == 0 && isMultiCapture == false)
+            {
+                var newMoveTile = Instantiate(moveTile, tile2Vector, Quaternion.identity);
+                newMoveTile.setParent(this);
+                this.moveTiles.Add(newMoveTile);
             }
-            else if((parent.checkIfTileHasEnemyPiece(tile2Vector, teamColor) == 1)) {
-                tempVector = tile2Vector;
-                tempVector.x = tile2Vector.x - 2;
-                if (teamColor == 1)
+            else if (parent.checkIfTileHasEnemyPiece(tile2Vector, teamColor) == 1)
+            {
+                var newSpotVector = tile2Vector;
+                newSpotVector.x = tile2Vector.x - 2;
+                newSpotVector.y = tile2Vector.y + (2 * direction);
+                var boundCheckNewSpot = checkBounds(newSpotVector);
+                if (boundCheckNewSpot == 1 && parent.checkIfTileOccupied(newSpotVector) == 0)
                 {
-                    tempVector.y = tile2Vector.y + 2;
-                }
-                else
-                {
-                    tempVector.y = tile2Vector.y - 2;
-                }
-                boundCheck2 = checkBounds(tempVector); //we need to keep the old vector because a piece was there
-                if (boundCheck2 == 1 && parent.checkIfTileOccupied(tempVector) == 0){
-                    tile2 = Instantiate(moveTile, tempVector, Quaternion.identity);
-                    tile2.setParent(this);
-                    tile2.setKill();
+                    var newMoveTile = Instantiate(moveTile, newSpotVector, Quaternion.identity);
+                    newMoveTile.setParent(this);
+                    this.moveTiles.Add(newMoveTile);
+                    newMoveTile.setKill();
+
+                    this.highlightMoves(newSpotVector.x, newSpotVector.y, directionIsUp, true);
                 }
             }
         }
     }
 
     public void destroyTiles(){
-        if (tile1 != null) {
-            tile1.DestroyMe();
+        foreach (var tile in this.moveTiles)
+        {
+            tile.DestroyMe();
         }
-        if (tile2 != null) {
-            tile2.DestroyMe();
-        }
+        this.moveTiles = new List<MoveTile>();
     }
 
     public void moveMe(Vector3 newPos, bool isKillMove) {
         newPos.z = -1;
         if (isKillMove){
-            //send signal to player controller to kill the piece that is in between the old piece transform and the new piece transform
-            tempVector = newPos - this.transform.position;
-            tempVector = tempVector / 2;
-            tempVector = newPos - tempVector;
-            parent.killAPiece(tempVector, teamColor);
+            // send signal to player controller to kill all pieces that are in between the old piece transform and the new piece transform
+
+            var x = this.transform.position.x;
+            var y = this.transform.position.y;
+            while (x != newPos.x || y != newPos.y)
+            {
+                if (x != newPos.x)
+                {
+                    x = (x < newPos.x) ? x + 2 : x - 2;
+                }
+                if (y != newPos.y)
+                {
+                    y = (y < newPos.y) ? y + 2 : y - 2;
+                }
+                var spotToCapture = new Vector3(x, y, -1);
+                parent.killAPiece(spotToCapture, teamColor);
+            }
         }
         this.transform.position = newPos;
         destroyTiles();
