@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamColor: 1
   moveTile: {fileID: 1546624575935899782, guid: 7996be6ef229536448a039c99a10b366, type: 3}
+  kingSprite: {fileID: 21300000, guid: 5d1fb3748709f394b9b4a8764d2033e5, type: 3}
 --- !u!61 &-3007573697994652296
 BoxCollider2D:
   m_ObjectHideFlags: 0

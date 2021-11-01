@@ -21,9 +21,11 @@ public class PlayerController : MonoBehaviour
     private string pieceName;
 
     // Start is called before the first frame update
+    // Black always starts in checkers
     void Start()
     {
         setupPieces();
+        setPlayerTurnBlack();
     }
 
 
@@ -43,21 +45,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void disableAllBlackPieces()
+    public void setPlayerTurnRed()
     {
         for (i = 0; i < 12; i++)
         {
-            blackPieces[i].disableColl();
-            redPieces[i].enableColl();
+            blackPieces[i].disableInteractions();
+            redPieces[i].enableInteractions();
         }
     }
 
-    void disableAllRedPieces()
+    public void setPlayerTurnBlack()
     {
         for (i = 0; i < 12; i++)
         {
-            redPieces[i].disableColl();
-            blackPieces[i].enableColl();
+            redPieces[i].disableInteractions();
+            blackPieces[i].enableInteractions();
         }
     }
 
