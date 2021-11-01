@@ -9,14 +9,17 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     [SerializeField] private int teamColor; //0 equals black, 1 equals red
     private Vector3 mousePos;
     [SerializeField] private MoveTile moveTile;
+    [SerializeField] private Sprite kingSprite;
 
     private MoveTile tile1;
     private MoveTile tile2;
     private MoveTile tile3;
     private MoveTile tile4;
+    private List<MoveTile> moveTiles = new List<MoveTile>();
 
     private PlayerController parent;
     private bool isInteractable = true;
+    private bool isKing = false;
 
     private Vector3 tempVector;
 
@@ -153,6 +156,12 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
         this.transform.position = newPos;
         destroyTiles();
+        var newPosIsEndOfBoard = newPos.y == 0 && teamColor == 0 || newPos.y == 14 && teamColor == 1;
+        if (newPosIsEndOfBoard)
+        {
+            this.isKing = true;
+            this.thisSprite.sprite = kingSprite;
+        }
         if (this.teamColor == 0)
         {
             this.parent.setPlayerTurnRed();
