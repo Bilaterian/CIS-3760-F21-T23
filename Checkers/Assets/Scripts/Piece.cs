@@ -17,6 +17,8 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
 
     private PlayerController parent;
 
+    private Vector3 tempVector;
+
     void Start(){
         thisSprite = GetComponent<SpriteRenderer>();
         colorOrig = thisSprite.color;
@@ -36,7 +38,7 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log("is this hitting? " + mousePos);
             parent.setPieceName(this.name);
-            parent.removeAllOtherMoveTiles();
+            parent.removeAllMoveTiles();
             //remove all other 
             spawnTiles();
         }
@@ -56,11 +58,12 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         int collCheck3;
         int collCheck4;
 
+       
         //check for king here later
         tile1Vector.x = this.transform.position.x + 2;
         tile2Vector.x = this.transform.position.x - 2;
-        tile1Vector.z = 0;
-        tile2Vector.z = 0;
+        tile1Vector.z = -1;
+        tile2Vector.z = -1;
 
         if(teamColor == 1){ //if red
             tile1Vector.y = this.transform.position.y + 2;
@@ -78,13 +81,52 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         //add piece collision check here, need reference to player controller
 
         //check before spawning
-        if (boundCheck1 == 1 && parent.checkIfTileOccupied(tile1Vector) == 0) {
-            tile1 = Instantiate(moveTile, tile1Vector, Quaternion.identity);
-            tile1.setParent(this);
+        if (boundCheck1 == 1){
+            if (parent.checkIfTileOccupied(tile1Vector) == 0)
+            {
+                tile1 = Instantiate(moveTile, tile1Vector, Quaternion.identity);
+                tile1.setParent(this);
+            }
+            else if (parent.checkIfTileHasEnemyPiece(tile1Vector, teamColor) == 1) {
+                tempVector = tile1Vector;
+                tempVector.x = tile1Vector.x + 2;
+                if (teamColor == 1) {
+                    tempVector.y = tile1Vector.y + 2;
+                }
+                else {
+                    tempVector.y = tile1Vector.y - 2;
+                }
+                boundCheck1 = checkBounds(tempVector);
+                if (boundCheck1 == 1 && parent.checkIfTileOccupied(tempVector) == 0) {
+                    tile1 = Instantiate(moveTile, tempVector, Quaternion.identity);
+                    tile1.setParent(this);
+                    tile1.setKill();
+                }
+            }
         }
-        if (boundCheck2 == 1 && parent.checkIfTileOccupied(tile2Vector) == 0) {
-            tile2 = Instantiate(moveTile, tile2Vector, Quaternion.identity);
-            tile2.setParent(this);
+        if (boundCheck2 == 1) {
+            if (parent.checkIfTileOccupied(tile2Vector) == 0) {
+                tile2 = Instantiate(moveTile, tile2Vector, Quaternion.identity);
+                tile2.setParent(this);
+            }
+            else if((parent.checkIfTileHasEnemyPiece(tile2Vector, teamColor) == 1)) {
+                tempVector = tile2Vector;
+                tempVector.x = tile2Vector.x - 2;
+                if (teamColor == 1)
+                {
+                    tempVector.y = tile2Vector.y + 2;
+                }
+                else
+                {
+                    tempVector.y = tile2Vector.y - 2;
+                }
+                boundCheck2 = checkBounds(tempVector); //we need to keep the old vector because a piece was there
+                if (boundCheck2 == 1 && parent.checkIfTileOccupied(tempVector) == 0){
+                    tile2 = Instantiate(moveTile, tempVector, Quaternion.identity);
+                    tile2.setParent(this);
+                    tile2.setKill();
+                }
+            }
         }
     }
 
@@ -97,8 +139,15 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
     }
 
-    public void moveMe(Vector3 newPos) {
+    public void moveMe(Vector3 newPos, bool isKillMove) {
         newPos.z = -1;
+        if (isKillMove){
+            //send signal to player controller to kill the piece that is in between the old piece transform and the new piece transform
+            tempVector = newPos - this.transform.position;
+            tempVector = tempVector / 2;
+            tempVector = newPos - tempVector;
+            parent.killAPiece(tempVector, teamColor);
+        }
         this.transform.position = newPos;
         destroyTiles();
     }
@@ -129,5 +178,9 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         parent = newParent;
     }
 
-
+    public void DestroyMe(){
+        this.GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(this.GetComponent<BoxCollider2D>());
+       // Destroy(this);
+    }
 }

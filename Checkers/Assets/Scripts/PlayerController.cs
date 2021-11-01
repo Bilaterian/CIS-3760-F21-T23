@@ -21,75 +21,132 @@ public class PlayerController : MonoBehaviour
     private string pieceName;
 
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
         setupPieces();
     }
 
 
-    void setupPieces(){
-        for (i = 0; i < 12; i++) {
-            var newPieceRed = Instantiate(redPiece, new Vector3(redX[i]*2, redY[i]*2, -1), Quaternion.identity);
+    void setupPieces()
+    {
+        for (i = 0; i < 12; i++)
+        {
+            var newPieceRed = Instantiate(redPiece, new Vector3(redX[i] * 2, redY[i] * 2, -1), Quaternion.identity);
             newPieceRed.name = $"Red Piece {i}";
             newPieceRed.setParent(this);
-            redPieces.Add(newPieceRed); 
+            redPieces.Add(newPieceRed);
 
             var newPieceBlack = Instantiate(blackPiece, new Vector3(blackX[i] * 2, blackY[i] * 2, -1), Quaternion.identity);
             newPieceBlack.name = $"Black Piece {i}";
             newPieceBlack.setParent(this);
-            blackPieces.Add(newPieceBlack); 
+            blackPieces.Add(newPieceBlack);
         }
     }
 
-    void removeRedPiece(){
-        numRed = numRed - 1;
-    }
-
-    void reomveBlackPiece(){
-        numBlack = numBlack - 1;
-    }
-
-    void disableAllBlackPieces(){
-        for (i = 0; i < 12; i++) {
+    void disableAllBlackPieces()
+    {
+        for (i = 0; i < 12; i++)
+        {
             blackPieces[i].disableColl();
             redPieces[i].enableColl();
         }
     }
 
-    void disableAllRedPieces(){
-        for (i = 0; i < 12; i++){
+    void disableAllRedPieces()
+    {
+        for (i = 0; i < 12; i++)
+        {
             redPieces[i].disableColl();
             blackPieces[i].enableColl();
         }
     }
 
-    public void setPieceName(string newName){
+    public void setPieceName(string newName)
+    {
         pieceName = newName;
     }
 
-    public void removeAllOtherMoveTiles(){
-        for(i = 0; i< 12; i++){
-            if(redPieces[i].name != pieceName){
-                redPieces[i].destroyTiles();
-            }
-            if (blackPieces[i].name != pieceName){
-                blackPieces[i].destroyTiles();
-            }
+    public void removeAllMoveTiles()
+    {
+        for (i = 0; i < 12; i++)
+        {
+            redPieces[i].destroyTiles();
+        }
+        for (i = 0; i < 12; i++)
+        {
+            blackPieces[i].destroyTiles();
         }
     }
 
-    public int checkIfTileOccupied(Vector3 checkThis){
-        checkThis.z = -1;
-        for (i = 0; i < 12; i++){
-            if (redPieces[i].transform.position == checkThis){
-                Debug.Log("red: " + redPieces[i].transform.position + " " + checkThis);
+    public int checkIfTileOccupied(Vector3 checkThis)
+    {
+        for (i = 0; i < 12; i++)
+        {
+            if (redPieces[i].transform.position == checkThis)
+            {
                 return 1;
             }
-            if (blackPieces[i].transform.position == checkThis){
-                Debug.Log("black: " + blackPieces[i].transform.position + " " + checkThis);
+        }
+        for (i = 0; i < 12; i++)
+        {
+            if (blackPieces[i].transform.position == checkThis)
+            {
                 return 1;
             }
         }
 
         return 0;
+    }
+    public int checkIfTileHasEnemyPiece(Vector3 checkThis, int teamColor)
+    {//black = 0, red = 1
+        if (teamColor == 0)
+        {
+            for (i = 0; i < 12; i++)
+            {
+                if (redPieces[i].transform.position == checkThis)
+                {
+                    return 1;
+                }
+            }
+        }
+        else
+        {
+            for (i = 0; i < 12; i++)
+            {
+                if (blackPieces[i].transform.position == checkThis)
+                {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void killAPiece(Vector3 posToKill, int teamColor)
+    {
+        if (teamColor == 0)
+        {
+            for (i = 0; i < 12; i++)
+            {
+                if (redPieces[i].transform.position == posToKill)
+                {
+                    //kill red piece
+                    numRed = numRed - 1; 
+                    redPieces[i].moveMe(new Vector3(0, 20, -1), false);
+                }
+            }
+        }
+        else
+        {
+            for (i = 0; i < 12; i++)
+            {
+                if (blackPieces[i].transform.position == posToKill)
+                {
+                    //kill black piece
+                    numBlack = numBlack - 1;
+                    blackPieces[i].moveMe(new Vector3(0, 20, -1), false);
+                }
+            }
+        }
     }
 }
