@@ -45,6 +45,10 @@ public class CreateGameMenu
         DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
+        //save current players
+        // PlayerPrefs.SetInt(PrefName, playerOneDropdown.text);
+    
+
     }
 
     public void CreatePlayer(string name, Dropdown playerOneDropdown, Dropdown playerTwoDropdown)
@@ -60,10 +64,13 @@ public class CreateGameMenu
         playerOneDropdown.options.Add(new Dropdown.OptionData() { text = name });
         playerTwoDropdown.options.Add(new Dropdown.OptionData() { text = name });
 
+    
         playerOneDropdown.RefreshShownValue();
         playerTwoDropdown.RefreshShownValue();
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
+        
+        //save current players
     }
 
     public void DropdownValueChanged(Dropdown changedDropdown, Dropdown unchangedDropdown)
@@ -75,5 +82,12 @@ public class CreateGameMenu
                                                 where player.name != newDropdownValue
                                                 select new Dropdown.OptionData() { text = player.name };
         unchangedDropdown.AddOptions(possiblePlayersMinusNewlySelected.ToList());
+        //save newly updated value from here
+    }
+    
+    public string PlayersValue(Dropdown changedDropdown, Dropdown unchangedDropdown){
+        unchangedDropdown.options.Clear();
+        var newDropdownValue = changedDropdown.options[changedDropdown.value].text;
+        return newDropdownValue;
     }
 }
