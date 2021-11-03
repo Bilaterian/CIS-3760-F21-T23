@@ -9,6 +9,8 @@ public class CreateGameMenu
     private Player playerOne;
     private Player playerTwo;
 
+    const string prefname = "Optional";
+
     public void InitializeDropdowns(Dropdown playerOneDropdown, Dropdown playerTwoDropdown)
     {
         possiblePlayers = DataSaver.LoadList<Player>("possiblePlayers");
@@ -45,14 +47,21 @@ public class CreateGameMenu
         DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
-        //save current players
-        // PlayerPrefs.SetInt(PrefName, playerOneDropdown.text);
-    
-
+        prefname = playerOneDropdown.options[playerOneDropdown.value].text;
+        PlayerPrefs.SetString("playerOne", playerFirst);
+        PlayerPrefs.Save();
+        Debug.Log(playerFirst);
+       
     }
 
     public void CreatePlayer(string name, Dropdown playerOneDropdown, Dropdown playerTwoDropdown)
     {
+
+        // int playerOneMenuIdex = playerOneDropdown.GetComponent<Dropdown>().value; 
+        // List<DropDown.OptionData> playerOneOptions = playerOneDropdown.GetComponent<Dropdown>().options;
+        // string playerOneName = playerOneOptions[playerOneMenuIdex].text;
+
+
         if (possiblePlayers.Exists(player => player.name == name))
         {
             return;
@@ -70,7 +79,17 @@ public class CreateGameMenu
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
         
-        //save current players
+        var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
+        PlayerPrefs.SetString("playerOne", playerfirst);
+        PlayerPrefs.Save();
+        Debug.Log(playerfirst);
+        // var playersecond = playerOneDropdown.options[playerOneDropdown.value].text;
+        // PlayerPrefs.SetString("playerOne", playersecond);
+        // PlayerPrefs.Save();
+        //save current players(key,value)
+        //PlayerPrefs.SetString("playerOneName", playerOneDropdown.text);
+        
+        //  Debug.Log(PlayerPrefs.GetString("playerOneName"));
     }
 
     public void DropdownValueChanged(Dropdown changedDropdown, Dropdown unchangedDropdown)
@@ -83,11 +102,6 @@ public class CreateGameMenu
                                                 select new Dropdown.OptionData() { text = player.name };
         unchangedDropdown.AddOptions(possiblePlayersMinusNewlySelected.ToList());
         //save newly updated value from here
-    }
-    
-    public string PlayersValue(Dropdown changedDropdown, Dropdown unchangedDropdown){
-        unchangedDropdown.options.Clear();
-        var newDropdownValue = changedDropdown.options[changedDropdown.value].text;
-        return newDropdownValue;
+
     }
 }
