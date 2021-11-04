@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public Piece redPiece;
     public Piece blackPiece;
     public Text firstPlayer;
+    public Text secondPlayer;
+
+    public Text player;
 
     private int[] blackX = new int[12] { 0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7 };
     private int[] blackY = new int[12] { 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6 };
@@ -29,21 +32,20 @@ public class PlayerController : MonoBehaviour
     // Black always starts in checkers
     void Start()
     {
-        setupPieces();
-        // setPlayerTurnBlack();
         SetText();
-
-        // Button choiceRed = Red.GetComponent<Button>();
-        // Button choiceBlack = Black.GetComponent<Button>();
-        // choiceRed.onClick.AddListener(playerChooseRed);
-        // choiceBlack.onClick.AddListener(playerChooseBlack);
+        setupPieces();
+        setPlayerTurnBlack();
+        Button choiceRed = Red.GetComponent<Button>();
+        Button choiceBlack = Black.GetComponent<Button>();
+        choiceRed.onClick.AddListener(playerChooseRed);
+        choiceBlack.onClick.AddListener(playerChooseBlack);
     }
 
     void SetText()
     {
-        // string m_PlayerName;
-        //Fetch name (string) from the PlayerPrefs (set these Playerprefs in another script). If no string exists, the default is "No Name"
         firstPlayer.text = PlayerPrefs.GetString("playerOne", "No Name");
+        secondPlayer.text = PlayerPrefs.GetString("playerTwo", "No Name");
+        PlayerPrefs.SetString("playerTurn", "Black");
     }
 
 
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
             blackPieces[i].disableInteractions();
             redPieces[i].enableInteractions();
         }
+        player.text = PlayerPrefs.GetString("playerTurn");
     }
 
     public void setPlayerTurnBlack()
@@ -79,6 +82,7 @@ public class PlayerController : MonoBehaviour
             redPieces[i].disableInteractions();
             blackPieces[i].enableInteractions();
         }
+        player.text = PlayerPrefs.GetString("playerTurn");
     }
 
     public void setPieceName(string newName)
@@ -169,15 +173,14 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    // public void playerChooseRed(){
-    //     setPlayerTurnRed();
-    //     Destroy(gameObject); //destroy the button
-    //     Destroy(Red);
-    // }
-    // public void playerChooseBlack(){
-    //     setPlayerTurnBlack();
-    //     Destroy(gameObject); //destroy the button
-    //     Destroy(Black);
-    // }
+    public void playerChooseRed(){
+        setPlayerTurnRed();
+        Destroy(gameObject); //destroy the button
+        Destroy(Red);
+    }
+    public void playerChooseBlack(){
+        setPlayerTurnBlack();
+        Destroy(gameObject); //destroy the button
+        Destroy(Black);
+    }
 }
