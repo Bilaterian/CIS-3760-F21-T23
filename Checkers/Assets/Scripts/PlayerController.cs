@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Button Red;
-    public Button Black;
+    // public Button Red;
+    // public Button Black;
     public Piece redPiece;
     public Piece blackPiece;
     public Text firstPlayer;
@@ -35,10 +35,10 @@ public class PlayerController : MonoBehaviour
         SetText();
         setupPieces();
         setPlayerTurnBlack();
-        Button choiceRed = Red.GetComponent<Button>();
-        Button choiceBlack = Black.GetComponent<Button>();
-        choiceRed.onClick.AddListener(playerChooseRed);
-        choiceBlack.onClick.AddListener(playerChooseBlack);
+        // Button choiceRed = Red.GetComponent<Button>();
+        // Button choiceBlack = Black.GetComponent<Button>();
+        // choiceRed.onClick.AddListener(playerChooseRed);
+        // choiceBlack.onClick.AddListener(playerChooseBlack);
     }
 
     void SetText()
@@ -173,14 +173,14 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void playerChooseRed(){
-        setPlayerTurnRed();
-        Destroy(gameObject); //destroy the button
-        Destroy(Red);
-    }
-    public void playerChooseBlack(){
-        setPlayerTurnBlack();
-        Destroy(gameObject); //destroy the button
-        Destroy(Black);
-    }
+    // public void playerChooseRed(){
+    //     setPlayerTurnRed();
+    //     Destroy(gameObject); //destroy the button
+    //     Destroy(Red);
+    // }
+    // public void playerChooseBlack(){
+    //     setPlayerTurnBlack();
+    //     Destroy(gameObject); //destroy the button
+    //     Destroy(Black);
+    // }
 }
