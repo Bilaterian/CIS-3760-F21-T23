@@ -22,6 +22,8 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     private bool isKing = false;
 
     private Vector3 tempVector;
+    private Player playerTurn;
+    // public Text player;
 
     void Start(){
         thisSprite = GetComponent<SpriteRenderer>();
@@ -167,9 +169,11 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
         if (this.teamColor == 0)
         {
+            PlayerPrefs.SetString("playerTurn", "Red");
             this.parent.setPlayerTurnRed();
         } else
         {
+            PlayerPrefs.SetString("playerTurn", "Black");
             this.parent.setPlayerTurnBlack();
         }
     }
