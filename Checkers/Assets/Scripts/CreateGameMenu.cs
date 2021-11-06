@@ -57,13 +57,9 @@ public class CreateGameMenu
         var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
         PlayerPrefs.SetString("playerOne", playerfirst);
         PlayerPrefs.Save();
-        Debug.Log(playerfirst);
-
         var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
         PlayerPrefs.SetString("playerTwo", playersecond);
-        PlayerPrefs.Save();
-        Debug.Log(playersecond);
-       
+        PlayerPrefs.Save();    
     }
 
     public void CreatePlayer(string name, Dropdown playerOneDropdown, Dropdown playerTwoDropdown)
