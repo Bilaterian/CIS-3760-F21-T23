@@ -169,11 +169,9 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
         if (this.teamColor == 0)
         {
-            PlayerPrefs.SetString("playerTurn", "Red");
             this.parent.setPlayerTurnRed();
         } else
         {
-            PlayerPrefs.SetString("playerTurn", "Black");
             this.parent.setPlayerTurnBlack();
         }
     }
