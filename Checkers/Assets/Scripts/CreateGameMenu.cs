@@ -33,9 +33,15 @@ public class CreateGameMenu
 
         playerOneDropdown.onValueChanged.AddListener(delegate {
             DropdownValueChanged(playerOneDropdown, playerTwoDropdown);
+            var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
+            PlayerPrefs.SetString("playerOne", playerfirst);
+            PlayerPrefs.Save();
         });
         playerTwoDropdown.onValueChanged.AddListener(delegate {
             DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
+            var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
+            PlayerPrefs.SetString("playerTwo", playersecond);
+            PlayerPrefs.Save();
         });
 
 
@@ -43,8 +49,15 @@ public class CreateGameMenu
         DropdownValueChanged(playerOneDropdown, playerTwoDropdown);
         playerTwoDropdown.value = 1;
         DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
-
+       
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
+
+        var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
+        PlayerPrefs.SetString("playerOne", playerfirst);
+        PlayerPrefs.Save();
+        var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
+        PlayerPrefs.SetString("playerTwo", playersecond);
+        PlayerPrefs.Save();    
     }
 
     public void CreatePlayer(string name, Dropdown playerOneDropdown, Dropdown playerTwoDropdown)

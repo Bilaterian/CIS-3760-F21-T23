@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+   
     public Piece redPiece;
     public Piece blackPiece;
+    public Text firstPlayer;
+    public Text secondPlayer;
+
+    public Text player;
+
     private int[] blackX = new int[12] { 0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7 };
     private int[] blackY = new int[12] { 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6 };
     private int[] redX = new int[12] { 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7 };
@@ -24,8 +31,16 @@ public class PlayerController : MonoBehaviour
     // Black always starts in checkers
     void Start()
     {
+        SetText();
         setupPieces();
         setPlayerTurnBlack();
+    }
+
+    void SetText()
+    {
+        firstPlayer.text = PlayerPrefs.GetString("playerOne", "No Name");
+        secondPlayer.text = PlayerPrefs.GetString("playerTwo", "No Name");
+        PlayerPrefs.SetString("playerTurn", "Black");
     }
 
 
@@ -52,6 +67,7 @@ public class PlayerController : MonoBehaviour
             blackPieces[i].disableInteractions();
             redPieces[i].enableInteractions();
         }
+         player.text = "Red";
     }
 
     public void setPlayerTurnBlack()
@@ -61,6 +77,7 @@ public class PlayerController : MonoBehaviour
             redPieces[i].disableInteractions();
             blackPieces[i].enableInteractions();
         }
+        player.text = "Black";
     }
 
     public void setPieceName(string newName)
