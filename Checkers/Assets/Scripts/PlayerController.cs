@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             blackPieces[i].disableInteractions();
             redPieces[i].enableInteractions();
         }
-        player.text = PlayerPrefs.GetString("playerTurn");
+         player.text = "Red";
     }
 
     public void setPlayerTurnBlack()
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
             redPieces[i].disableInteractions();
             blackPieces[i].enableInteractions();
         }
-        player.text = PlayerPrefs.GetString("playerTurn");
+        player.text = "Black";
     }
 
     public void setPieceName(string newName)
