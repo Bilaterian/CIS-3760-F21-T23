@@ -9,8 +9,6 @@ public class CreateGameMenu
     private Player playerOne;
     private Player playerTwo;
 
-  
-
     public void InitializeDropdowns(Dropdown playerOneDropdown, Dropdown playerTwoDropdown)
     {
         possiblePlayers = DataSaver.LoadList<Player>("possiblePlayers");
@@ -79,11 +77,6 @@ public class CreateGameMenu
         playerTwoDropdown.RefreshShownValue();
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
-        
-        var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
-        PlayerPrefs.SetString("playerOne", playerfirst);
-        PlayerPrefs.Save();
-        Debug.Log(playerfirst);
     }
 
     public void DropdownValueChanged(Dropdown changedDropdown, Dropdown unchangedDropdown)
