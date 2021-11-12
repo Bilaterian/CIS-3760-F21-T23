@@ -25,24 +25,29 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     private Player playerTurn;
     // public Text player;
 
-    void Start(){
+    void Start()
+    {
         thisSprite = GetComponent<SpriteRenderer>();
         colorOrig = thisSprite.color;
     }
 
     // Start is called before the first frame update
-    void OnMouseOver(){
+    void OnMouseOver()
+    {
         if (this.isInteractable == false) return;
-         thisSprite.color = Color.yellow;
+        thisSprite.color = Color.yellow;
     }
 
-    void OnMouseExit() {
-         thisSprite.color = colorOrig;
+    void OnMouseExit()
+    {
+        thisSprite.color = colorOrig;
     }
 
-    void OnMouseDown(){
+    void OnMouseDown()
+    {
         if (this.isInteractable == false) return;
-        if (Input.GetMouseButtonDown(0)){ //on left click
+        if (Input.GetMouseButtonDown(0))
+        { //on left click
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Debug.Log("is this hitting? " + mousePos);
             parent.setPieceName(this.name);
@@ -53,10 +58,12 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             {
                 highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
                 highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
-            } else if (this.teamColor == 0)
+            }
+            else if (this.teamColor == 0)
             {
                 highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
-            } else
+            }
+            else
             {
                 highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
             }
@@ -130,7 +137,8 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         }
     }
 
-    public void destroyTiles(){
+    public void destroyTiles()
+    {
         foreach (var tile in this.moveTiles)
         {
             tile.DestroyMe();
@@ -138,9 +146,11 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         this.moveTiles = new List<MoveTile>();
     }
 
-    public void moveMe(Vector3 newPos, bool isKillMove) {
+    public void moveMe(Vector3 newPos, bool isKillMove)
+    {
         newPos.z = -1;
-        if (isKillMove){
+        if (isKillMove)
+        {
             // send signal to player controller to kill all pieces that are in between the old piece transform and the new piece transform
 
             var x = this.transform.position.x;
@@ -170,41 +180,50 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         if (this.teamColor == 0)
         {
             this.parent.setPlayerTurnRed();
-        } else
+        }
+        else
         {
             this.parent.setPlayerTurnBlack();
         }
     }
 
-    private int checkBounds(Vector3 toCheck) {
+    private int checkBounds(Vector3 toCheck)
+    {
         //check x and y
-        if ((toCheck.x >= 0 && toCheck.x <= 14) && (toCheck.y >= 0 && toCheck.y <= 14)){
+        if ((toCheck.x >= 0 && toCheck.x <= 14) && (toCheck.y >= 0 && toCheck.y <= 14))
+        {
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
     }
 
-    Vector3 getPos() {
+    Vector3 getPos()
+    {
         return this.transform.position;
     }
 
-    public void disableInteractions() {
+    public void disableInteractions()
+    {
         this.isInteractable = false;
     }
 
-    public void enableInteractions() {
+    public void enableInteractions()
+    {
         this.isInteractable = true;
     }
 
-    public void setParent(PlayerController newParent){
+    public void setParent(PlayerController newParent)
+    {
         parent = newParent;
     }
 
-    public void DestroyMe(){
+    public void DestroyMe()
+    {
         this.GetComponent<SpriteRenderer>().enabled = false;
         Destroy(this.GetComponent<BoxCollider2D>());
-       // Destroy(this);
+        // Destroy(this);
     }
 }

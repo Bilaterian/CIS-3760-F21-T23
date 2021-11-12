@@ -10,20 +10,24 @@ public class CreateGameMenuBehaviour : MonoBehaviour
     [SerializeField] InputField createPlayerInputField;
     private CreateGameMenu createGameMenu;
 
-    void Start() {
+    void Start()
+    {
         createGameMenu = new CreateGameMenu();
         createGameMenu.InitializeDropdowns(playerOneDropdown, playerTwoDropdown);
     }
 
-    public void CreatePlayer() {
+    public void CreatePlayer()
+    {
         createGameMenu.CreatePlayer(createPlayerInputField.text, playerOneDropdown, playerTwoDropdown);
     }
 
-    public void BackToMainMenu() {
+    public void BackToMainMenu()
+    {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void StartGame() {
+    public void StartGame()
+    {
         SceneManager.LoadScene("Checkers");
     }
 }
