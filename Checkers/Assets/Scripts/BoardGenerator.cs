@@ -19,23 +19,30 @@ public class BoardGenerator : MonoBehaviour
         generateGrid();
     }
 
-    void generateGrid() {
-        for (x = 0; x < boardSize; x++) {
-            for (y = 0; y < boardSize; y++) {
+    void generateGrid()
+    {
+        for (x = 0; x < boardSize; x++)
+        {
+            for (y = 0; y < boardSize; y++)
+            {
                 //Debug.Log("x: " + x + " y: " + y + " Color: " + colorPicker);
-                if (colorPicker == 0){
-                    var newTile = Instantiate(tile1, new Vector3(x*2, y*2, 1), Quaternion.identity);
+                if (colorPicker == 0)
+                {
+                    var newTile = Instantiate(tile1, new Vector3(x * 2, y * 2, 1), Quaternion.identity);
                     colorPicker = 1;
                 }
-                else {
-                    var newTile = Instantiate(tile2, new Vector3(x*2, y*2, 1), Quaternion.identity);
+                else
+                {
+                    var newTile = Instantiate(tile2, new Vector3(x * 2, y * 2, 1), Quaternion.identity);
                     colorPicker = 0;
                 }
             }
-            if (colorPicker == 0){
+            if (colorPicker == 0)
+            {
                 colorPicker = 1;
             }
-            else {
+            else
+            {
                 colorPicker = 0;
             }
         }

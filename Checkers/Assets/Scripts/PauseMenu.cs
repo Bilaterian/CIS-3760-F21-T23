@@ -8,15 +8,18 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] GameObject pauseMenu;
 
-    public void Pause() {
+    public void Pause()
+    {
         pauseMenu.SetActive(true);
     }
 
-    public void Resume() {
+    public void Resume()
+    {
         pauseMenu.SetActive(false);
     }
 
-    public void MainMenu(string scene) {
+    public void MainMenu(string scene)
+    {
         SceneManager.LoadScene(scene);
     }
 }
