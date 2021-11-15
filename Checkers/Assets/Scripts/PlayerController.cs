@@ -27,11 +27,17 @@ public class PlayerController : MonoBehaviour
 
     private string pieceName;
 
+    private bool isPlayerTurnRed = false;
+    private bool isPlayerTurnBlack = false;
+
+    [SerializeField] private EndTurnButton endTurn;
+
     // Start is called before the first frame update
     // Black always starts in checkers
     void Start()
     {
         SetText();
+        spawnETB();
         setupPieces();
         setPlayerTurnBlack();
     }
@@ -67,7 +73,10 @@ public class PlayerController : MonoBehaviour
             blackPieces[i].disableInteractions();
             redPieces[i].enableInteractions();
         }
-        player.text = "Red";
+         player.text = "Red";
+
+        isPlayerTurnRed = true;
+        isPlayerTurnBlack = false;
     }
 
     public void setPlayerTurnBlack()
@@ -78,6 +87,19 @@ public class PlayerController : MonoBehaviour
             blackPieces[i].enableInteractions();
         }
         player.text = "Black";
+
+        isPlayerTurnRed = false;
+        isPlayerTurnBlack = true;
+    }
+
+    public bool isRedTurn()
+    {
+        return isPlayerTurnRed;
+    }
+
+    public bool isBlackTurn()
+    {
+        return isPlayerTurnBlack;
     }
 
     public void setPieceName(string newName)
@@ -165,6 +187,35 @@ public class PlayerController : MonoBehaviour
                     numBlack = numBlack - 1;
                     blackPieces[i].moveMe(new Vector3(0, 20, -1), false);
                 }
+            }
+        }
+    }
+
+    private void spawnETB(){
+        var newETB = Instantiate(endTurn, new Vector3(20, 2, -1), Quaternion.identity);
+        newETB.setParent(this);
+    }
+
+    public void resetAllFirstMoves()
+    {
+        for (i = 0; i < 12; i++)
+        {
+            blackPieces[i].resetFirstMove();
+            redPieces[i].resetFirstMove();
+        }
+    }
+
+    public void setallButOneImmovable(Vector3 moveablePos)
+    {
+        for (i = 0; i < 12; i++)
+        {
+            if(redPieces[i].transform.position != moveablePos)
+            {
+                redPieces[i].disableInteractions();
+            }
+            if (blackPieces[i].transform.position != moveablePos)
+            {
+                blackPieces[i].disableInteractions();
             }
         }
     }
