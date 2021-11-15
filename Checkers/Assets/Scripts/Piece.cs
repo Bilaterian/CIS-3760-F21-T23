@@ -24,6 +24,7 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
     private Vector3 tempVector;
     private Player playerTurn;
     // public Text player;
+    private bool isFirstMove = true;
 
     void Start(){
         thisSprite = GetComponent<SpriteRenderer>();
@@ -51,14 +52,14 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             // spawnTiles();
             if (this.isKing)
             {
-                highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
-                highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
+                highlightMoves(this.transform.position.x, this.transform.position.y, true, !isFirstMove);
+                highlightMoves(this.transform.position.x, this.transform.position.y, false, !isFirstMove);
             } else if (this.teamColor == 0)
             {
-                highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
+                highlightMoves(this.transform.position.x, this.transform.position.y, false, !isFirstMove);
             } else
             {
-                highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
+                highlightMoves(this.transform.position.x, this.transform.position.y, true, !isFirstMove);
             }
         }
     }
@@ -98,8 +99,6 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
                     newMoveTile.setParent(this);
                     this.moveTiles.Add(newMoveTile);
                     newMoveTile.setKill();
-
-                    this.highlightMoves(newSpotVector.x, newSpotVector.y, directionIsUp, true);
                 }
             }
         }
@@ -123,8 +122,6 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
                     newMoveTile.setParent(this);
                     this.moveTiles.Add(newMoveTile);
                     newMoveTile.setKill();
-
-                    this.highlightMoves(newSpotVector.x, newSpotVector.y, directionIsUp, true);
                 }
             }
         }
@@ -167,12 +164,22 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             this.isKing = true;
             this.thisSprite.sprite = kingSprite;
         }
-        if (this.teamColor == 0)
+
+        if(isKillMove == false)
         {
-            this.parent.setPlayerTurnRed();
-        } else
+            if (this.teamColor == 0)
+            {
+                this.parent.setPlayerTurnRed();
+            }
+            else
+            {
+                this.parent.setPlayerTurnBlack();
+            }
+        }
+        else
         {
-            this.parent.setPlayerTurnBlack();
+            isFirstMove = false;
+            parent.setallButOneImmovable(this.transform.position);
         }
     }
 
@@ -206,5 +213,10 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         this.GetComponent<SpriteRenderer>().enabled = false;
         Destroy(this.GetComponent<BoxCollider2D>());
        // Destroy(this);
+    }
+
+    public void resetFirstMove()
+    {
+        isFirstMove = true;
     }
 }

@@ -45,3 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redPiece: {fileID: 8367049296721870089, guid: 707bbf8d3679ee54882639a11e7ada0e, type: 3}
   blackPiece: {fileID: 8646280080383015959, guid: 3d3b8cefe4498dc40aab5863593beffe, type: 3}
+  firstPlayer: {fileID: 0}
+  secondPlayer: {fileID: 0}
+  player: {fileID: 0}
+  endTurn: {fileID: 577689674004628992, guid: 0f6df00c62a57834ebae81f57af267f0, type: 3}
