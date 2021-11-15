@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-   
+
     public Piece redPiece;
     public Piece blackPiece;
     public Text firstPlayer;
@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
                 if (redPieces[i].transform.position == posToKill)
                 {
                     //kill red piece
-                    numRed = numRed - 1; 
+                    numRed = numRed - 1;
                     redPieces[i].moveMe(new Vector3(0, 20, -1), false);
                 }
             }
