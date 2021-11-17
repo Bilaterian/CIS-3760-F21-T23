@@ -14,6 +14,7 @@ public class GameStats
     public string wonPlayerName;
     public string lostPlayerName;
     public string gameLength;
+    public float gameEndTime;
 }
 
 
@@ -48,6 +49,8 @@ public class Game
         var seconds = (int)timeElapsed % 60;
         var minutes = timeElapsed / 60;
         gameStats.gameLength = string.Format("{0}:{1}", minutes.ToString("0"), seconds.ToString("00"));
+
+        gameStats.gameEndTime = Time.time;
 
         DataSaver.SaveNewGame(gameStats);
     }

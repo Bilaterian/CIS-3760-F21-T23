@@ -11,6 +11,11 @@ public class MatchHistory : MonoBehaviour
     void Start()
     {
         var matches = DataSaver.LoadList<GameStats>("matches");
+
+        matches.Sort(delegate (GameStats x, GameStats y)
+        {
+            return y.gameEndTime.CompareTo(x.gameEndTime);
+        });
         Debug.Log(matches);
         foreach (var match in matches)
         {
