@@ -34,16 +34,14 @@ public class CreateGameMenu
         playerOneDropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(playerOneDropdown, playerTwoDropdown);
-            var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
-            PlayerPrefs.SetString("playerOne", playerfirst);
-            PlayerPrefs.Save();
+            var playerfirst = this.GetSelectedPlayer(playerOneDropdown);
+            DataSaver.Save<Player>("playerOne", playerfirst);
         });
         playerTwoDropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
-            var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
-            PlayerPrefs.SetString("playerTwo", playersecond);
-            PlayerPrefs.Save();
+            var playerSecond = this.GetSelectedPlayer(playerTwoDropdown);
+            DataSaver.Save<Player>("playerTwo", playerSecond);
         });
 
 
@@ -54,12 +52,17 @@ public class CreateGameMenu
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
 
-        var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
-        PlayerPrefs.SetString("playerOne", playerfirst);
-        PlayerPrefs.Save();
-        var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
-        PlayerPrefs.SetString("playerTwo", playersecond);
-        PlayerPrefs.Save();
+        var playerfirst = this.GetSelectedPlayer(playerOneDropdown);
+        DataSaver.Save<Player>("playerOne", playerfirst);
+
+        var playerSecond = this.GetSelectedPlayer(playerTwoDropdown);
+        DataSaver.Save<Player>("playerTwo", playerSecond);
+    }
+
+    private Player GetSelectedPlayer(Dropdown dropdown)
+    {
+        var playerName = dropdown.options[dropdown.value].text;
+        return this.possiblePlayers.Find(player => player.name == playerName);
     }
 
     public void CreatePlayer(string name, Dropdown playerOneDropdown, Dropdown playerTwoDropdown)

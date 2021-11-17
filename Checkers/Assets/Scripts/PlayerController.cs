@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public Text player;
 
+    private Game game;
     private int[] blackX = new int[12] { 0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7 };
     private int[] blackY = new int[12] { 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6 };
     private int[] redX = new int[12] { 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7 };
@@ -36,17 +37,28 @@ public class PlayerController : MonoBehaviour
     // Black always starts in checkers
     void Start()
     {
-        SetText();
         spawnETB();
         setupPieces();
+        StartGame();
         setPlayerTurnBlack();
     }
 
-    void SetText()
+    void StartGame()
     {
-        firstPlayer.text = PlayerPrefs.GetString("playerOne", "No Name");
-        secondPlayer.text = PlayerPrefs.GetString("playerTwo", "No Name");
-        PlayerPrefs.SetString("playerTurn", "Black");
+        var playerOne = DataSaver.Load<Player>("playerOne");
+        var playerTwo = DataSaver.Load<Player>("playerTwo");
+
+        if (playerOne == null || playerTwo == null)
+        {
+            playerOne = new Player("no name");
+            playerTwo = new Player("no name");
+        }
+
+        firstPlayer.text = playerOne.name;
+        secondPlayer.text = playerTwo.name;
+
+        this.game = new Game(playerOne, playerTwo);
+        //PlayerPrefs.SetString("playerTurn", "Black");
     }
 
 
@@ -77,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
         isPlayerTurnRed = true;
         isPlayerTurnBlack = false;
+        this.game.GameOver(isBlackTurn());
     }
 
     public void setPlayerTurnBlack()

@@ -5,6 +5,8 @@ using System;
 public class Player
 {
     public string name;
+    public int wins;
+    public int losses;
 
     public Player(string name)
     {
