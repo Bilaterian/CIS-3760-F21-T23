@@ -1,6 +1,7 @@
 using Unity;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DataSaver
 {
@@ -34,6 +35,16 @@ public class DataSaver
 
         currentMatches.Add(newGame);
         SaveList<GameStats>("matches", currentMatches);
+    }
+
+    public static void UpdatePlayer(Player player)
+    {
+        var currentPlayers = LoadList<Player>("possiblePlayers");
+
+        var playersWithoutUpdated = currentPlayers.Where(p => p.name != player.name).ToList();
+        playersWithoutUpdated.Add(player);
+
+        SaveList<Player>("possiblePlayers", playersWithoutUpdated);
     }
 
     public static T Load<T>(string name)

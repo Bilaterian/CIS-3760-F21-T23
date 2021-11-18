@@ -32,6 +32,18 @@ public class Game
         startTime = Time.time;
     }
 
+    public void RedPieceKilled()
+    {
+        this.blackPlayer.piecesCaptured += 1;
+        DataSaver.UpdatePlayer(this.blackPlayer);
+    }
+
+    public void BlackPieceKilled()
+    {
+        this.redPlayer.piecesCaptured += 1;
+        DataSaver.UpdatePlayer(this.redPlayer);
+    }
+
     public void GameOver(bool blackWins)
     {
         if (blackPlayer.name == "no name") return;
@@ -53,5 +65,7 @@ public class Game
         gameStats.gameEndTime = Time.time;
 
         DataSaver.SaveNewGame(gameStats);
+        DataSaver.UpdatePlayer(this.blackPlayer);
+        DataSaver.UpdatePlayer(this.redPlayer);
     }
 }

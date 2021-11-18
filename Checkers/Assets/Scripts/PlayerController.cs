@@ -187,8 +187,10 @@ public class PlayerController : MonoBehaviour
                     //kill red piece
                     numRed = numRed - 1;
                     redPieces[i].moveMe(new Vector3(0, 20, -1), false);
+                    this.game.RedPieceKilled();
                 }
             }
+
         }
         else
         {
@@ -199,6 +201,7 @@ public class PlayerController : MonoBehaviour
                     //kill black piece
                     numBlack = numBlack - 1;
                     blackPieces[i].moveMe(new Vector3(0, 20, -1), false);
+                    this.game.BlackPieceKilled();
                 }
             }
         }
