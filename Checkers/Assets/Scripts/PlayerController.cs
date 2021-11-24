@@ -89,7 +89,6 @@ public class PlayerController : MonoBehaviour
 
         isPlayerTurnRed = true;
         isPlayerTurnBlack = false;
-        this.game.GameOver(isBlackTurn());
     }
 
     public void setPlayerTurnBlack()
@@ -188,6 +187,10 @@ public class PlayerController : MonoBehaviour
                     numRed = numRed - 1;
                     redPieces[i].moveMe(new Vector3(0, 20, -1), false);
                     this.game.RedPieceKilled();
+                    if (numRed == 0)
+                    {
+                        this.game.GameOver(true);
+                    }
                 }
             }
 
@@ -202,6 +205,10 @@ public class PlayerController : MonoBehaviour
                     numBlack = numBlack - 1;
                     blackPieces[i].moveMe(new Vector3(0, 20, -1), false);
                     this.game.BlackPieceKilled();
+                    if (numBlack == 0)
+                    {
+                        this.game.GameOver(false);
+                    }
                 }
             }
         }
