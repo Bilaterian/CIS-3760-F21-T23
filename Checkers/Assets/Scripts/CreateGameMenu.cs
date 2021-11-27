@@ -35,13 +35,15 @@ public class CreateGameMenu
         {
             DropdownValueChanged(playerOneDropdown, playerTwoDropdown);
             var playerfirst = this.GetSelectedPlayer(playerOneDropdown);
-            DataSaver.Save<Player>("playerOne", playerfirst);
+            PlayerPrefs.SetString("playerOne", playerfirst.name);
+            PlayerPrefs.Save();
         });
         playerTwoDropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
             var playerSecond = this.GetSelectedPlayer(playerTwoDropdown);
-            DataSaver.Save<Player>("playerTwo", playerSecond);
+            PlayerPrefs.SetString("playerTwo", playerSecond.name);
+            PlayerPrefs.Save();
         });
 
 
@@ -53,10 +55,12 @@ public class CreateGameMenu
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
 
         var playerfirst = this.GetSelectedPlayer(playerOneDropdown);
-        DataSaver.Save<Player>("playerOne", playerfirst);
+        PlayerPrefs.SetString("playerOne", playerfirst.name);
+        PlayerPrefs.Save();
 
         var playerSecond = this.GetSelectedPlayer(playerTwoDropdown);
-        DataSaver.Save<Player>("playerTwo", playerSecond);
+        PlayerPrefs.SetString("playerTwo", playerSecond.name);
+        PlayerPrefs.Save();
     }
 
     private Player GetSelectedPlayer(Dropdown dropdown)

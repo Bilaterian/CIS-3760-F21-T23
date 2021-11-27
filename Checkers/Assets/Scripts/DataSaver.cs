@@ -9,17 +9,15 @@ public class DataSaver
     public static void Save<T>(string name, T data)
     {
         string jsonData = JsonUtility.ToJson(data);
+        Debug.Log(jsonData);
         PlayerPrefs.SetString(name, jsonData);
         PlayerPrefs.Save();
     }
 
     public static void SaveList<T>(string name, List<T> data)
     {
-        Debug.Log(data[0]);
         var serializableList = new SerializableListContainer<T>(data);
         string jsonData = JsonUtility.ToJson(serializableList);
-        Debug.Log("json data to be saved");
-        Debug.Log(jsonData);
         PlayerPrefs.SetString(name, jsonData);
         PlayerPrefs.Save();
     }
@@ -39,12 +37,21 @@ public class DataSaver
 
     public static void UpdatePlayer(Player player)
     {
+        Debug.Log("Updating player");
+        Debug.Log(player.wins);
         var currentPlayers = LoadList<Player>("possiblePlayers");
 
         var playersWithoutUpdated = currentPlayers.Where(p => p.name != player.name).ToList();
         playersWithoutUpdated.Add(player);
 
         SaveList<Player>("possiblePlayers", playersWithoutUpdated);
+    }
+
+    public static Player LoadPlayerWithName(string name)
+    {
+        var currentPlayers = LoadList<Player>("possiblePlayers");
+
+        return currentPlayers.Find(p => p.name == name);
     }
 
     public static T Load<T>(string name)

@@ -141,6 +141,28 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         this.moveTiles = new List<MoveTile>();
     }
 
+    public bool IsAbleToMove()
+    {
+        if (this.isKing)
+        {
+            highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
+            highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
+        }
+        else if (this.teamColor == 0)
+        {
+            highlightMoves(this.transform.position.x, this.transform.position.y, false, false);
+        }
+        else
+        {
+            highlightMoves(this.transform.position.x, this.transform.position.y, true, false);
+        }
+
+        var isAbleToMove = this.moveTiles.Count != 0;
+        this.destroyTiles();
+
+        return isAbleToMove;
+    }
+
     public void moveMe(Vector3 newPos, bool isKillMove)
     {
         newPos.z = -1;

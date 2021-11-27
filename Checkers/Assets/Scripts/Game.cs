@@ -27,6 +27,8 @@ public class Game
 
     public Game(Player blackPlayer, Player redPlayer)
     {
+        Debug.Log(blackPlayer.name);
+        Debug.Log(redPlayer.name);
         this.blackPlayer = blackPlayer;
         this.redPlayer = redPlayer;
         startTime = Time.time;
@@ -44,12 +46,14 @@ public class Game
         DataSaver.UpdatePlayer(this.redPlayer);
     }
 
-    public void GameOver(bool blackWins)
+    public void GameOver(bool blackWins, GameObject gameOverMenu)
     {
         if (blackPlayer.name == "no name") return;
 
         var won = blackWins ? this.blackPlayer : this.redPlayer;
         var lost = blackWins ? this.redPlayer : this.blackPlayer;
+
+
         won.wins += 1;
         lost.losses += 1;
 
@@ -65,7 +69,9 @@ public class Game
         gameStats.gameEndTime = Time.time;
 
         DataSaver.SaveNewGame(gameStats);
-        DataSaver.UpdatePlayer(this.blackPlayer);
-        DataSaver.UpdatePlayer(this.redPlayer);
+        DataSaver.UpdatePlayer(won);
+        DataSaver.UpdatePlayer(lost);
+
+        gameOverMenu.GetComponent<GameOverMenu>().SetGameOver(won.name, lost.name);
     }
 }

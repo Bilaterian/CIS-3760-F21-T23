@@ -14,7 +14,7 @@ public class MatchHistory : MonoBehaviour
 
         matches.Sort(delegate (GameStats x, GameStats y)
         {
-            return y.gameEndTime.CompareTo(x.gameEndTime);
+            return x.gameEndTime.CompareTo(y.gameEndTime);
         });
         Debug.Log(matches);
         foreach (var match in matches)
