@@ -104,6 +104,7 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
                     newMoveTile.setParent(this);
                     this.moveTiles.Add(newMoveTile);
                     newMoveTile.setKill();
+                   
                 }
             }
         }
@@ -147,7 +148,6 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
         if (isKillMove)
         {
             // send signal to player controller to kill all pieces that are in between the old piece transform and the new piece transform
-
             var x = this.transform.position.x;
             var y = this.transform.position.y;
             while (x != newPos.x || y != newPos.y)
