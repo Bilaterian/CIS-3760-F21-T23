@@ -31,3 +31,8 @@ Milestone 2:
 - Story 2: As a player, I can capture one piece of the opponent's according to the rules
 - Story 3: As a player, I can 'King' a piece by moving it to the end of the board and move it according to the 'Kinged' rules.
 
+Milestone 3:
+
+- Story 1: As a user, I can make multiple captures, in succession, in both directions on the same turn using a king piece
+- Story 2: As a player, I can end the game if I capture all of the other player’s pieces or my move results in a tie.
+- Story 3: As a user, I can see stats about player history (wins/losses, who played against who)
