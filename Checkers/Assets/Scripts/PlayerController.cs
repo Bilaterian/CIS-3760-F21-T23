@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
 
     public Text player;
 
+    //current stats
+    public Text Red;
+    public Text Black;
+
     private int[] blackX = new int[12] { 0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7 };
     private int[] blackY = new int[12] { 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6 };
     private int[] redX = new int[12] { 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7 };
@@ -172,6 +176,8 @@ public class PlayerController : MonoBehaviour
                 if (redPieces[i].transform.position == posToKill)
                 {
                     //kill red piece
+                    int count = 0;              
+                    Red.text = "One";
                     numRed = numRed - 1;
                     redPieces[i].moveMe(new Vector3(0, 20, -1), false);
                 }
@@ -184,6 +190,7 @@ public class PlayerController : MonoBehaviour
                 if (blackPieces[i].transform.position == posToKill)
                 {
                     //kill black piece
+                    Debug.Log("captured");
                     numBlack = numBlack - 1;
                     blackPieces[i].moveMe(new Vector3(0, 20, -1), false);
                 }
