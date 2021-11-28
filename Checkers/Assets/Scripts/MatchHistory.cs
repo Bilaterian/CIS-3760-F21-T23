@@ -14,11 +14,12 @@ public class MatchHistory : MonoBehaviour
 
         matches.Sort(delegate (GameStats x, GameStats y)
         {
-            return x.gameEndTime.CompareTo(y.gameEndTime);
+            return y.gameEndTime.CompareTo(x.gameEndTime);
         });
         Debug.Log(matches);
         foreach (var match in matches)
         {
+            Debug.Log(match.gameEndTime);
             var matchHistoryObject = Instantiate(singleMatchHistory) as GameObject;
 
             matchHistoryObject.GetComponent<SingleMatchHistory>().SetText(match.wonPlayerName, match.lostPlayerName);
