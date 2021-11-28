@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int[] redY = new int[12] { 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 };
     private int i = 0;
-    [SerializeField]
-    GameObject gameOverMenu;
 
     private List<Piece> redPieces = new List<Piece>();
     private List<Piece> blackPieces = new List<Piece>(); //consider finding a different way of stroing multiple info underthe same key
@@ -53,10 +51,8 @@ public class PlayerController : MonoBehaviour
 
     void StartGame()
     {
-        var playerOneName = PlayerPrefs.GetString("playerOne");
-        var playerOne = DataSaver.LoadPlayerWithName(playerOneName);
-        var playerTwoName = PlayerPrefs.GetString("playerTwo");
-        var playerTwo = DataSaver.LoadPlayerWithName(playerTwoName);
+        var playerOne = DataSaver.Load<Player>("playerOne");
+        var playerTwo = DataSaver.Load<Player>("playerTwo");
 
         if (playerOne == null || playerTwo == null)
         {
@@ -94,29 +90,28 @@ public class PlayerController : MonoBehaviour
     {
         foreach (var piece in playerPieces)
         {
-            if (piece.IsAbleToMove())
-            {
-                return true;
-            }
+            if (!piece.IsAbleToMove()) return false;
         }
-        return false;
+        return true;
     }
 
     public void setPlayerTurnRed()
     {
         if (!this.PlayerCanMove(this.redPieces))
         {
-
-            this.game.GameOver(true, gameOverMenu);
-            return;
+            this.game.GameOver(true);
+            //if (!this.PlayerCanMove(this.blackPieces))
+            //{
+            //    this.game.GameOver()
+            //}
         }
         for (i = 0; i < redPieces.Count; i++)
         {
-            redPieces[i].enableInteractions();
+            redPieces[i].disableInteractions();
         }
         for (i = 0; i < blackPieces.Count; i++)
         {
-            blackPieces[i].disableInteractions();
+            blackPieces[i].enableInteractions();
         }
         player.text = "Red";
 
@@ -128,8 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!this.PlayerCanMove(this.blackPieces))
         {
-            this.game.GameOver(false, gameOverMenu);
-            return;
+            this.game.GameOver(false);
         }
         for (i = 0; i < redPieces.Count; i++)
         {
@@ -230,7 +224,7 @@ public class PlayerController : MonoBehaviour
                     this.game.RedPieceKilled();
                     if (numRed == 0)
                     {
-                        this.game.GameOver(true, gameOverMenu);
+                        this.game.GameOver(true);
                     }
                 }
             }
@@ -248,7 +242,7 @@ public class PlayerController : MonoBehaviour
                     this.game.BlackPieceKilled();
                     if (numBlack == 0)
                     {
-                        this.game.GameOver(false, gameOverMenu);
+                        this.game.GameOver(false);
                     }
                 }
             }
@@ -274,15 +268,12 @@ public class PlayerController : MonoBehaviour
 
     public void setallButOneImmovable(Vector3 moveablePos)
     {
-        for (i = 0; i < redPieces.Count; i++)
+        for (i = 0; i < 12; i++)
         {
-            if (redPieces[i].transform.position != moveablePos)
+            if(redPieces[i].transform.position != moveablePos)
             {
                 redPieces[i].disableInteractions();
             }
-        }
-        for (i = 0; i < blackPieces.Count; i++)
-        {
             if (blackPieces[i].transform.position != moveablePos)
             {
                 blackPieces[i].disableInteractions();

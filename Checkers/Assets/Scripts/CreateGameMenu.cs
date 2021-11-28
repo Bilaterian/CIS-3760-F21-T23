@@ -34,15 +34,15 @@ public class CreateGameMenu
         playerOneDropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(playerOneDropdown, playerTwoDropdown);
-            var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
-            PlayerPrefs.SetString("playerOne", playerfirst);
+            var playerfirst = this.GetSelectedPlayer(playerOneDropdown);
+            PlayerPrefs.SetString("playerOne", playerfirst.name);
             PlayerPrefs.Save();
         });
         playerTwoDropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(playerTwoDropdown, playerOneDropdown);
-            var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
-            PlayerPrefs.SetString("playerTwo", playersecond);
+            var playerSecond = this.GetSelectedPlayer(playerTwoDropdown);
+            PlayerPrefs.SetString("playerTwo", playerSecond.name);
             PlayerPrefs.Save();
         });
 
@@ -54,12 +54,19 @@ public class CreateGameMenu
 
         DataSaver.SaveList<Player>("possiblePlayers", possiblePlayers);
 
-        var playerfirst = playerOneDropdown.options[playerOneDropdown.value].text;
-        PlayerPrefs.SetString("playerOne", playerfirst);
+        var playerfirst = this.GetSelectedPlayer(playerOneDropdown);
+        PlayerPrefs.SetString("playerOne", playerfirst.name);
         PlayerPrefs.Save();
-        var playersecond = playerTwoDropdown.options[playerTwoDropdown.value].text;
-        PlayerPrefs.SetString("playerTwo", playersecond);
+
+        var playerSecond = this.GetSelectedPlayer(playerTwoDropdown);
+        PlayerPrefs.SetString("playerTwo", playerSecond.name);
         PlayerPrefs.Save();
+    }
+
+    private Player GetSelectedPlayer(Dropdown dropdown)
+    {
+        var playerName = dropdown.options[dropdown.value].text;
+        return this.possiblePlayers.Find(player => player.name == playerName);
     }
 
     public void CreatePlayer(string name, Dropdown playerOneDropdown, Dropdown playerTwoDropdown)

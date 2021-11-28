@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MatchHistory : MonoBehaviour
+{
+    public GameObject singleMatchHistory;
+    public GameObject scrollView;
+
+    void Start()
+    {
+        var matches = DataSaver.LoadList<GameStats>("matches");
+        Debug.Log(matches);
+        foreach (var match in matches)
+        {
+            var matchHistoryObject = Instantiate(singleMatchHistory);
+            matchHistoryObject.transform.SetParent(scrollView.transform, false);
+        }
+    }
+
+    void Update()
+    {
+        
+    }
+}

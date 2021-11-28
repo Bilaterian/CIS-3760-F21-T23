@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 8a032854d13b2bd41bbae7b4afeea3cd
+  - enabled: 1
+    path: Assets/Scenes/MatchHistory.unity
+    guid: 23f9e4b7ef6b8f34b9f3f45d0fafd08e
+  - enabled: 1
+    path: Assets/Scenes/Stats.unity
+    guid: 28c5e3a343a599e469652ba2f35095e7
   m_configObjects: {}

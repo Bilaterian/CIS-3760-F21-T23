@@ -1,0 +1,83 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Stats : MonoBehaviour
+{
+    [SerializeField]
+    private GameObject singlePlayerStats;
+    [SerializeField]
+    private Dropdown sortByDropdown;
+    private List<Player> players;
+    private List<GameObject> allPlayerStats;
+
+    private void Start()
+    {
+        this.allPlayerStats = new List<GameObject>();
+        this.InitiateDropdown();
+
+        this.players = DataSaver.LoadList<Player>("possiblePlayers");
+
+        this.SortPlayersByDropDownValue();
+        this.UpdateUIPlayerStats();
+
+        this.sortByDropdown.onValueChanged.AddListener(delegate
+        {
+            this.SortPlayersByDropDownValue();
+            this.UpdateUIPlayerStats();
+        });
+    }
+
+    private void SortPlayersByDropDownValue()
+    {
+        var dropdownValue = this.sortByDropdown.options[this.sortByDropdown.value].text;
+
+        this.players.Sort(delegate (Player x, Player y)
+        {
+            if (dropdownValue == "Pieces Captured")
+            {
+                return y.piecesCaptured.CompareTo(x.piecesCaptured);
+            } else if (dropdownValue == "Losses")
+            {
+                return y.losses.CompareTo(x.losses);
+            } else
+            {
+                return y.wins.CompareTo(x.wins);
+            }
+        });
+    }
+
+    private void UpdateUIPlayerStats()
+    {
+        foreach (var playerStatsObject in this.allPlayerStats)
+        {
+            Destroy(playerStatsObject);
+        }
+        this.allPlayerStats = new List<GameObject>();
+
+        foreach (var player in this.players)
+        {
+            var playerStatsObject = Instantiate(this.singlePlayerStats) as GameObject;
+            
+            playerStatsObject.GetComponent<SinglePlayerStats>().SetText(player.name, player.wins, player.losses, player.piecesCaptured);
+
+            playerStatsObject.SetActive(true);
+            playerStatsObject.transform.SetParent(this.singlePlayerStats.transform.parent, false);
+
+            this.allPlayerStats.Add(playerStatsObject);
+        }
+    }
+
+    private void InitiateDropdown()
+    {
+        this.sortByDropdown.ClearOptions();
+
+        this.sortByDropdown.options.Add(new Dropdown.OptionData("Wins"));
+        this.sortByDropdown.options.Add(new Dropdown.OptionData("Losses"));
+        this.sortByDropdown.options.Add(new Dropdown.OptionData("Pieces Captured"));
+
+        this.sortByDropdown.value = 0;
+        this.sortByDropdown.RefreshShownValue();
+    }
+}
