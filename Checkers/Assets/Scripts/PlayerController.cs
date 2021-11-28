@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
     public Piece redPiece;
     public Piece blackPiece;
     public Text firstPlayer;
@@ -14,24 +14,17 @@ public class PlayerController : MonoBehaviour
     public Text player;
 
     private Game game;
-    [SerializeField]
-    private int[] blackX = new int[12] { 0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7 };
-    [SerializeField]
-    private int[] blackY = new int[12] { 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6 };
-    [SerializeField]
-    private int[] redX = new int[12] { 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7 };
-    [SerializeField]
-    private int[] redY = new int[12] { 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 };
+    [SerializeField] private int[] blackX = new int[12] { 0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7 };
+    [SerializeField] private int[] blackY = new int[12] { 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6 };
+    [SerializeField] private int[] redX = new int[12] { 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7 };
+    [SerializeField] private int[] redY = new int[12] { 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 };
     private int i = 0;
-    [SerializeField]
-    GameObject gameOverMenu;
+    [SerializeField] GameObject gameOverMenu;
 
     private List<Piece> redPieces = new List<Piece>();
-    private List<Piece> blackPieces = new List<Piece>(); //consider finding a different way of stroing multiple info underthe same key
+    private List<Piece> blackPieces = new List<Piece>(); 
 
-    [SerializeField]
     private int numRed = 12;
-    [SerializeField]
     private int numBlack = 12;
 
     private string pieceName;
@@ -192,7 +185,7 @@ public class PlayerController : MonoBehaviour
         return 0;
     }
     public int checkIfTileHasEnemyPiece(Vector3 checkThis, int teamColor)
-    {//black = 0, red = 1
+    {
         if (teamColor == 0)
         {
             for (i = 0; i < redPieces.Count; i++)
@@ -255,7 +248,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void spawnETB(){
+    private void spawnETB()
+    {
         var newETB = Instantiate(endTurn, new Vector3(20, 2, -1), Quaternion.identity);
         newETB.setParent(this);
     }

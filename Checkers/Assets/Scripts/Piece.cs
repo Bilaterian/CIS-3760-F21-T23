@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,10 +60,12 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             {
                 highlightMoves(this.transform.position.x, this.transform.position.y, true, !isFirstMove);
                 highlightMoves(this.transform.position.x, this.transform.position.y, false, !isFirstMove);
-            } else if (this.teamColor == 0)
+            }
+            else if (this.teamColor == 0)
             {
                 highlightMoves(this.transform.position.x, this.transform.position.y, false, !isFirstMove);
-            } else
+            }
+            else
             {
                 highlightMoves(this.transform.position.x, this.transform.position.y, true, !isFirstMove);
             }
@@ -195,7 +198,7 @@ public class Piece : MonoBehaviour //so far this only highlights the pieces
             this.thisSprite.sprite = kingSprite;
         }
 
-        if(isKillMove == false)
+        if (isKillMove == false)
         {
             if (this.teamColor == 0)
             {

@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum playerTurn{ //use this to inform playerController whose turn it is
+
+public enum playerTurn
+{ //use this to inform playerController whose turn it is
     RedTurn = 0,
     BlackTurn = 1
 }
@@ -63,7 +65,7 @@ public class Game
         var minutes = timeElapsed / 60;
         gameStats.gameLength = string.Format("{0}:{1}", minutes.ToString("0"), seconds.ToString("00"));
 
-        gameStats.gameEndTime =  DateTime.Now.ToFileTime();
+        gameStats.gameEndTime = DateTime.Now.ToFileTime();
 
         DataSaver.SaveNewGame(gameStats);
         DataSaver.UpdatePlayer(won);
