@@ -26,8 +26,6 @@ public class Game
 
     public Game(Player blackPlayer, Player redPlayer)
     {
-        Debug.Log(blackPlayer.name);
-        Debug.Log(redPlayer.name);
         this.blackPlayer = blackPlayer;
         this.redPlayer = redPlayer;
         startTime = Time.time;

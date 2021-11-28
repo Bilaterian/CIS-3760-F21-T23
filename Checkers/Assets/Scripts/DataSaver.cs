@@ -9,7 +9,6 @@ public class DataSaver
     public static void Save<T>(string name, T data)
     {
         string jsonData = JsonUtility.ToJson(data);
-        Debug.Log(jsonData);
         PlayerPrefs.SetString(name, jsonData);
         PlayerPrefs.Save();
     }
@@ -25,7 +24,6 @@ public class DataSaver
     public static void SaveNewGame(GameStats newGame)
     {
         var currentMatches = LoadList<GameStats>("matches");
-        Debug.Log(currentMatches);
         if (currentMatches == null)
         {
             currentMatches = new List<GameStats>();
@@ -37,8 +35,6 @@ public class DataSaver
 
     public static void UpdatePlayer(Player player)
     {
-        Debug.Log("Updating player");
-        Debug.Log(player.wins);
         var currentPlayers = LoadList<Player>("possiblePlayers");
 
         var playersWithoutUpdated = currentPlayers.Where(p => p.name != player.name).ToList();
@@ -64,7 +60,6 @@ public class DataSaver
     public static List<T> LoadList<T>(string name)
     {
         string jsonData = PlayerPrefs.GetString(name);
-        Debug.Log(jsonData);
         if (jsonData.Length == 0)
         {
             return new List<T>();

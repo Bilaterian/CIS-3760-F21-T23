@@ -16,10 +16,8 @@ public class MatchHistory : MonoBehaviour
         {
             return y.gameEndTime.CompareTo(x.gameEndTime);
         });
-        Debug.Log(matches);
         foreach (var match in matches)
         {
-            Debug.Log(match.gameEndTime);
             var matchHistoryObject = Instantiate(singleMatchHistory) as GameObject;
 
             matchHistoryObject.GetComponent<SingleMatchHistory>().SetText(match.wonPlayerName, match.lostPlayerName);
