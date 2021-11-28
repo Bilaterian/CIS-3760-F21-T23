@@ -39,10 +39,12 @@ public class Stats : MonoBehaviour
             if (dropdownValue == "Pieces Captured")
             {
                 return y.piecesCaptured.CompareTo(x.piecesCaptured);
-            } else if (dropdownValue == "Losses")
+            }
+            else if (dropdownValue == "Losses")
             {
                 return y.losses.CompareTo(x.losses);
-            } else
+            }
+            else
             {
                 return y.wins.CompareTo(x.wins);
             }
@@ -60,7 +62,7 @@ public class Stats : MonoBehaviour
         foreach (var player in this.players)
         {
             var playerStatsObject = Instantiate(this.singlePlayerStats) as GameObject;
-            
+
             playerStatsObject.GetComponent<SinglePlayerStats>().SetText(player.name, player.wins, player.losses, player.piecesCaptured);
 
             playerStatsObject.SetActive(true);
